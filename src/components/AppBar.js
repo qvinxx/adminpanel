@@ -45,7 +45,6 @@ import AddOrderPage from '../pages/AddOrder';
 
 const drawerWidth = 240;
 
-
 const StyledListItem = styled(ListItem)(({ theme, selected }) => ({
   padding: 0,
   '& .MuiListItemButton-root': {
@@ -73,10 +72,6 @@ function ResponsiveDrawer() {
     setMobileOpen(false);
   };
 
-  const handleDrawerTransitionEnd = () => {
-    setIsClosing(false);
-  };
-
   const handleDrawerToggle = () => {
     setMobileOpen(!mobileOpen);
   };
@@ -98,7 +93,7 @@ function ResponsiveDrawer() {
   ];
 
   const drawer = (
-    <div>
+    <Box>
       <Toolbar sx={{ display: 'flex', alignItems: 'center' }}>
         <Button href='/'>
           <img src='/kendirlogo.png' style={{ width: 32 }} alt="Logo" />
@@ -126,7 +121,7 @@ function ResponsiveDrawer() {
         ))}
       </List>
       <Divider />
-    </div>
+    </Box>
   );
 
   return (
