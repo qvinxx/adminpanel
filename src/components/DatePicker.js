@@ -5,19 +5,12 @@ import { DatePicker } from '@mui/x-date-pickers/DatePicker';
 import dayjs from 'dayjs';
 
 const CustomDatePicker = ({ label, value, onChange, sx = {} }) => {
-  const handleChange = (newValue) => {
-    // Ensure onChange exists before calling it
-    if (typeof onChange === 'function') {
-      onChange(newValue ? newValue.format('YYYY-MM-DD') : null);
-    }
-  };
-
   return (
     <LocalizationProvider dateAdapter={AdapterDayjs}>
       <DatePicker
         label={label}
         value={value ? dayjs(value) : null}
-        onChange={handleChange}
+        onChange={(newValue) => onChange(newValue ? newValue.format('YYYY-MM-DD') : null)}
         slotProps={{
           textField: {
             variant: 'outlined',
