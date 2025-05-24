@@ -17,7 +17,7 @@ import { useNavigate } from "react-router-dom";
 import { useOrderColumns, productRows, } from "../data/orderData";
 
 
-export default function ProductsPage () {
+export default function OrdersPage () {
   const [searchText, setSearchText] = useState('');
   const navigate = useNavigate();
   const theme = useTheme();

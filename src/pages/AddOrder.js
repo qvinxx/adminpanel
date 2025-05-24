@@ -25,6 +25,7 @@ const AddOrderPage = () => {
   const isSmallScreen = useMediaQuery(theme.breakpoints.down('md'));
   
   const [category, setCategory] = useState('');
+  const [date, setDate] = useState(null);
 
   return (
     <Box sx={{ p: isMobile ? 1 : 3 }}>
@@ -109,9 +110,13 @@ const AddOrderPage = () => {
 
             <Box>
               <Typography variant="subtitle1" fontWeight="bold" mb={1}>
-                Category*
+                Order Date
               </Typography>       
-              <CustomDatePicker/>
+              <CustomDatePicker
+                label="Select Date"
+                value={date}
+                onChange={setDate}
+              />
             </Box>
           </Box>
           <Button
