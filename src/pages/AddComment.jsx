@@ -1,45 +1,84 @@
-import { Box, Button, Dialog, DialogActions, DialogContent, DialogContentText, DialogTitle, FormControl, InputLabel, MenuItem, Rating, Select, TextField, Typography } from "@mui/material";
+import { 
+  Box, 
+  Button, 
+  Dialog, 
+  DialogActions, 
+  DialogContent, 
+  DialogContentText, 
+  DialogTitle, 
+  FormControl, 
+  InputLabel, 
+  MenuItem, 
+  Rating, 
+  Select, 
+  TextField, 
+  useMediaQuery,
+  useTheme 
+} from "@mui/material";
 import React from "react";
 
-function AddCommentButtonFunction({ open, onClose }) {
-  const [product, setAge] = React.useState('');
-  const [value, setValue] = React.useState();
+function AddButtonFunction({ open, onClose }) {
+  const theme = useTheme();
+  const isMobile = useMediaQuery(theme.breakpoints.down('sm'));
+  const [product, setProduct] = React.useState('');
+  const [rating, setRating] = React.useState(0);
 
-  const handleChange = (event) => {
-    setAge(event.target.value);
+  const handleProductChange = (event) => {
+    setProduct(event.target.value);
+  };
+
+  const handleSubmit = (event) => {
+    event.preventDefault();
+    onClose();
   };
 
   return (
     <Dialog
       open={open}
       onClose={onClose}
-      onSubmit={onClose}
       fullWidth
       maxWidth="sm"
+      PaperProps={{
+        component: 'form',
+        onSubmit: handleSubmit,
+        sx: {
+          borderRadius: isMobile ? 0 : 3,
+          m: isMobile ? 0 : 2,
+          width: isMobile ? '100%' : 'auto',
+          maxWidth: isMobile ? 'none' : 'sm',
+          minWidth: isMobile ? '100%' : '500px'
+        }
+      }}
     >
-      <DialogTitle fontSize={'26px'} fontWeight={'bold'}>Add Comment</DialogTitle>
-      <DialogContent>
-        <DialogContentText>
+      <DialogTitle sx={{ 
+        fontSize: isMobile ? '22px' : '26px',
+        fontWeight: 'bold',
+        p: isMobile ? 2 : 3
+      }}>
+        Add Comment
+      </DialogTitle>
+
+      <DialogContent sx={{
+        p: isMobile ? 2 : 3
+      }}>
+        <DialogContentText sx={{ mb: 1 }}>
           Review
         </DialogContentText>
         <TextField
-          autoFocus
           required
           margin="dense"
-          id="email"
-          name="email"
-          type="email"
           fullWidth
           multiline
-          rows={6}
+          rows={isMobile ? 4 : 6}
           sx={{
-            mb: 3,
+            mb: isMobile ? 2 : 3,
             "& .MuiInputBase-root": {
-              borderRadius: 5
+              borderRadius: 3
             }
           }}
         />
-        <DialogContentText>
+
+        <DialogContentText sx={{ mb: 1 }}>
           Reviewed By
         </DialogContentText>
         <TextField
@@ -47,54 +86,71 @@ function AddCommentButtonFunction({ open, onClose }) {
           label="Customer"
           fullWidth
           sx={{
-            mb: 3,
+            mb: isMobile ? 2 : 3,
             "& .MuiInputBase-root": {
-              borderRadius: 5
+              borderRadius: 3
             }
           }}
         />
-        <DialogContentText>
+
+        <DialogContentText sx={{ mb: 1 }}>
           Product
         </DialogContentText>
-        <Box sx={{ 
-          width: '100%', 
-          my: 1,
-        }}>
+        <Box sx={{ width: '100%', my: 1 }}>
           <FormControl fullWidth>
-            <InputLabel id="select-label">Select Product</InputLabel>
+            <InputLabel id="product-select-label">Select Product</InputLabel>
             <Select
-              labe1lId="select-label"
-              id="select"
+              labelId="product-select-label"
+              id="product-select"
               value={product}
-              label="Select product"
-              onChange={handleChange}
-              sx={{
-                borderRadius: 5
-              }}
+              label="Select Product"
+              onChange={handleProductChange}
+              sx={{ borderRadius: 3 }}
             >
-              <MenuItem value={10}>***</MenuItem>
-              <MenuItem value={20}>***</MenuItem>
-              <MenuItem value={30}>***</MenuItem>
+              <MenuItem value={10}>Product 1</MenuItem>
+              <MenuItem value={20}>Product 2</MenuItem>
+              <MenuItem value={30}>Product 3</MenuItem>
             </Select>
           </FormControl>
         </Box>
-        <DialogContentText>
+
+        <DialogContentText sx={{ mb: 1 }}>
           Rating
         </DialogContentText>
         <Rating
-          name="simple-controlled"
-          value={value}
-          onChange={(event, newValue) => {
-            setValue(newValue);
-          }}
+          name="product-rating"
+          value={rating}
+          onChange={(event, newValue) => setRating(newValue)}
+          size={isMobile ? "medium" : "large"}
+          sx={{ mb: isMobile ? 1 : 2 }}
         />
       </DialogContent>
-      <DialogActions>
-        <Button onClick={onClose}>Cancel</Button>
-        <Button type="submit">Save</Button>
+
+      <DialogActions sx={{
+        px: isMobile ? 2 : 3,
+        pb: isMobile ? 2 : 3,
+        flexDirection: isMobile ? 'column' : 'row',
+        gap: isMobile ? 1 : 2
+      }}>
+        <Button 
+          onClick={onClose}
+          fullWidth={isMobile}
+          variant={isMobile ? "outlined" : "text"}
+          size={isMobile ? "large" : "medium"}
+        >
+          Cancel
+        </Button>
+        <Button 
+          type="submit" 
+          fullWidth={isMobile}
+          variant="contained"
+          size={isMobile ? "large" : "medium"}
+        >
+          Save
+        </Button>
       </DialogActions>
     </Dialog>
   );
 }
 
-export default AddCommentButtonFunction;
+export default AddButtonFunction;
