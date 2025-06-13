@@ -35,7 +35,7 @@ export const useProductsColumns = () => {
     { 
       field: 'picture', 
       headerName: '', 
-      width: 80,
+      width: 100,
       sortable: false,
       filterable: false,
       disableColumnMenu: true,
@@ -55,7 +55,7 @@ export const useProductsColumns = () => {
     { 
       field: 'name', 
       headerName: 'Name', 
-      width: isMobile ? 150 : 220,
+      width: isMobile ? 150 : 230,
       renderCell: (params) => (
         <Box sx={{ display: 'flex', alignItems: 'center' }}>
           <Typography variant="body2">{params.row.name}</Typography>
@@ -67,7 +67,7 @@ export const useProductsColumns = () => {
     { 
       field: 'status', 
       headerName: 'Status', 
-      width: isMobile ? 100 : 190,
+      width: isMobile ? 100 : 210,
       renderCell: (params) => {
         const statusText = params.row.quantity === '0' ? 'Out of Stock' : 'Available';
         return (
@@ -87,7 +87,7 @@ export const useProductsColumns = () => {
                 px: 1.5,
                 py: 0.5,
                 borderRadius: 6,
-                minWidth: 100,
+                minWidth: 130,
                 backgroundColor: statusText === 'Available' ? 
                 '#B2FFB4' :
                 '#FFDCDC', 
@@ -108,12 +108,12 @@ export const useProductsColumns = () => {
     {
       field: 'actions',
       headerName: 'Actions',
-      width: 150,
+      width: 180,
       sortable: false,
       filterable: false,
       disableColumnMenu: true,
       renderCell: (params) => (
-        <Box sx={{ display: 'flex', gap: 1 }}>
+        <Box sx={{ display: 'flex', gap: 1, alignItems: "center", justifyContent: "center" }}>
           <Tooltip title="View">
             <IconButton onClick={() => categoryHandlers.handleView(params.row.id)}>
               <VisibilityIcon fontSize="small" color="info" />

@@ -141,7 +141,6 @@ export default function UsersPage() {
             <DataGrid
               rows={filteredRows}
               columns={columns}
-              getRowHeight={() => 'auto'}
               treeData
               getTreeDataPath={(row) => row.hierarchy}
               groupingColDef={{
@@ -157,6 +156,10 @@ export default function UsersPage() {
                 },
                 '& .MuiDataGrid-virtualScroller': {
                   minHeight: 200
+                },
+                '& .MuiDataGrid-row': {
+                  flex: 1,
+                  alignItems: "center"
                 }
               }}
               checkboxSelection={!isMobile}

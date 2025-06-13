@@ -18,8 +18,8 @@ import {
   Avatar,
   styled,
   Button,
-  useTheme
 } from '@mui/material';
+import { theme } from '../config/Theme';
 import { Routes, Route, Link, useLocation } from 'react-router-dom';
 import SearchIcon from '@mui/icons-material/Search';
 import MenuIcon from '@mui/icons-material/Menu';
@@ -42,6 +42,7 @@ import OrdersPage from '../pages/Orders'
 import AddCategories from '../pages/AddCategories'
 import AddProductPage from '../pages/AddProduct';
 import AddOrderPage from '../pages/AddOrder';
+import AddBrandPage from '../pages/AddBrand';
 
 const drawerWidth = 240;
 
@@ -65,7 +66,6 @@ function ResponsiveDrawer() {
   const [mobileOpen, setMobileOpen] = React.useState(false);
   const [isClosing, setIsClosing] = React.useState(false);
   const location = useLocation();
-  const theme = useTheme();
 
   const handleDrawerClose = () => {
     setIsClosing(true);
@@ -225,7 +225,7 @@ function ResponsiveDrawer() {
             keepMounted: true,
           }}
           sx={{
-            display: { xs: 'block', sm: 'none' },
+            display: { xs: 'block', md: 'none' },
             '& .MuiDrawer-paper': { 
               boxSizing: 'border-box', 
               width: drawerWidth,
@@ -269,6 +269,7 @@ function ResponsiveDrawer() {
           <Route path="/categories/add" element={<AddCategories />} />
           <Route path="/products/add" element={<AddProductPage />} />
           <Route path="/orders/add" element={<AddOrderPage />} />
+          <Route path="/brands/add" element={<AddBrandPage />} />
         </Routes>
       </Box>
     </Box>

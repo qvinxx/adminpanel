@@ -20,30 +20,6 @@ import AddIcon from '@mui/icons-material/Add';
 import { userColumns, userRows } from '../data/userData';
 import { useNavigate } from 'react-router-dom';
 
-const BasicSelect = ({ isMobile, isTablet }) => {
-  const [filter, setFilter] = useState('all');
-
-  return (
-    <FormControl fullWidth={isMobile} size={isMobile ? "small" : "medium"} sx={{ 
-      minWidth: isMobile ? '100%' : 150,
-      ml: isMobile ? 0 : 1
-    }}>
-      <InputLabel id="filter-label">Filter</InputLabel>
-      <Select
-        labelId="filter-label"
-        value={filter}
-        label="Filter"
-        onChange={(e) => setFilter(e.target.value)}
-      >
-        <MenuItem value="all">All</MenuItem>
-        <MenuItem value="active">Active</MenuItem>
-        <MenuItem value="inactive">Inactive</MenuItem>
-        {!isMobile && <MenuItem value="pending">Pending</MenuItem>}
-      </Select>
-    </FormControl>
-  );
-};
-
 function UsersPage() {
   const [searchText, setSearchText] = useState('');
   const navigate = useNavigate();
@@ -147,7 +123,7 @@ function UsersPage() {
           <TextField
             fullWidth
             variant="outlined"
-            placeholder={isMobile ? "Search..." : "Search users..."}
+            placeholder="Search..."
             size={isMobile ? "small" : "medium"}
             value={searchText}
             onChange={(e) => setSearchText(e.target.value)}
@@ -163,8 +139,6 @@ function UsersPage() {
               }
             }}
           />
-          
-          <BasicSelect isMobile={isMobile} isTablet={isTablet} />
         </Box>
 
         <Box sx={{ 
@@ -196,6 +170,7 @@ function UsersPage() {
               sx={{ 
                 '& .MuiDataGrid-cell': {
                   py: isMobile ? 0.5 : 1,
+                  alignItems: ""
                 },
                 '& .MuiDataGrid-columnHeaders': {
                   backgroundColor: theme.palette.grey[100],

@@ -1,26 +1,26 @@
-import { 
-  Box, 
-  Button, 
-  Dialog, 
-  DialogActions, 
-  DialogContent, 
-  DialogContentText, 
-  DialogTitle, 
-  FormControl, 
-  InputLabel, 
-  MenuItem, 
-  Rating, 
-  Select, 
-  TextField, 
+import {
+  Box,
+  Button,
+  Dialog,
+  DialogActions,
+  DialogContent,
+  DialogContentText,
+  DialogTitle,
+  FormControl,
+  InputLabel,
+  MenuItem,
+  Rating,
+  Select,
+  TextField,
   useMediaQuery,
-  useTheme 
+  useTheme,
 } from "@mui/material";
 import React from "react";
 
-function AddButtonFunction({ open, onClose }) {
+function AddButtonDialog({ open, onClose }) {
   const theme = useTheme();
-  const isMobile = useMediaQuery(theme.breakpoints.down('sm'));
-  const [product, setProduct] = React.useState('');
+  const isMobile = useMediaQuery(theme.breakpoints.down("sm"));
+  const [product, setProduct] = React.useState("");
   const [rating, setRating] = React.useState(0);
 
   const handleProductChange = (event) => {
@@ -39,31 +39,33 @@ function AddButtonFunction({ open, onClose }) {
       fullWidth
       maxWidth="sm"
       PaperProps={{
-        component: 'form',
+        component: "form",
         onSubmit: handleSubmit,
         sx: {
           borderRadius: isMobile ? 0 : 3,
           m: isMobile ? 0 : 2,
-          width: isMobile ? '100%' : 'auto',
-          maxWidth: isMobile ? 'none' : 'sm',
-          minWidth: isMobile ? '100%' : '500px'
-        }
+          width: isMobile ? "100%" : "auto",
+          maxWidth: isMobile ? "none" : "sm",
+          minWidth: isMobile ? "100%" : "500px",
+        },
       }}
     >
-      <DialogTitle sx={{ 
-        fontSize: isMobile ? '22px' : '26px',
-        fontWeight: 'bold',
-        p: isMobile ? 2 : 3
-      }}>
+      <DialogTitle
+        sx={{
+          fontSize: isMobile ? "22px" : "26px",
+          fontWeight: "bold",
+          p: isMobile ? 2 : 3,
+        }}
+      >
         Add Comment
       </DialogTitle>
 
-      <DialogContent sx={{
-        p: isMobile ? 2 : 3
-      }}>
-        <DialogContentText sx={{ mb: 1 }}>
-          Review
-        </DialogContentText>
+      <DialogContent
+        sx={{
+          p: isMobile ? 2 : 3,
+        }}
+      >
+        <DialogContentText sx={{ mb: 1 }}>Review</DialogContentText>
         <TextField
           required
           margin="dense"
@@ -73,14 +75,12 @@ function AddButtonFunction({ open, onClose }) {
           sx={{
             mb: isMobile ? 2 : 3,
             "& .MuiInputBase-root": {
-              borderRadius: 3
-            }
+              borderRadius: 3,
+            },
           }}
         />
 
-        <DialogContentText sx={{ mb: 1 }}>
-          Reviewed By
-        </DialogContentText>
+        <DialogContentText sx={{ mb: 1 }}>Reviewed By</DialogContentText>
         <TextField
           required
           label="Customer"
@@ -88,15 +88,13 @@ function AddButtonFunction({ open, onClose }) {
           sx={{
             mb: isMobile ? 2 : 3,
             "& .MuiInputBase-root": {
-              borderRadius: 3
-            }
+              borderRadius: 3,
+            },
           }}
         />
 
-        <DialogContentText sx={{ mb: 1 }}>
-          Product
-        </DialogContentText>
-        <Box sx={{ width: '100%', my: 1 }}>
+        <DialogContentText sx={{ mb: 1 }}>Product</DialogContentText>
+        <Box sx={{ width: "100%", my: 1 }}>
           <FormControl fullWidth>
             <InputLabel id="product-select-label">Select Product</InputLabel>
             <Select
@@ -114,9 +112,7 @@ function AddButtonFunction({ open, onClose }) {
           </FormControl>
         </Box>
 
-        <DialogContentText sx={{ mb: 1 }}>
-          Rating
-        </DialogContentText>
+        <DialogContentText sx={{ mb: 1 }}>Rating</DialogContentText>
         <Rating
           name="product-rating"
           value={rating}
@@ -126,13 +122,15 @@ function AddButtonFunction({ open, onClose }) {
         />
       </DialogContent>
 
-      <DialogActions sx={{
-        px: isMobile ? 2 : 3,
-        pb: isMobile ? 2 : 3,
-        flexDirection: isMobile ? 'column' : 'row',
-        gap: isMobile ? 1 : 2
-      }}>
-        <Button 
+      <DialogActions
+        sx={{
+          px: isMobile ? 2 : 3,
+          pb: isMobile ? 2 : 3,
+          flexDirection: isMobile ? "column" : "row",
+          gap: isMobile ? 1 : 2,
+        }}
+      >
+        <Button
           onClick={onClose}
           fullWidth={isMobile}
           variant={isMobile ? "outlined" : "text"}
@@ -140,8 +138,8 @@ function AddButtonFunction({ open, onClose }) {
         >
           Cancel
         </Button>
-        <Button 
-          type="submit" 
+        <Button
+          type="submit"
           fullWidth={isMobile}
           variant="contained"
           size={isMobile ? "large" : "medium"}
@@ -153,4 +151,4 @@ function AddButtonFunction({ open, onClose }) {
   );
 }
 
-export default AddButtonFunction;
+export default AddButtonDialog;
