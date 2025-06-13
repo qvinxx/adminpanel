@@ -36,7 +36,7 @@ export default function BrandsPage() {
           alignItems: "center",
         }}
       >
-        <Typography variant="h4" color="primary">
+        <Typography variant="h4" color="primary" mb={2}>
           Brands
         </Typography>
         <Icon

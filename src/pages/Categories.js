@@ -8,6 +8,7 @@ import {
   useMediaQuery, 
   useTheme, 
   IconButton,
+  Icon,
 } from "@mui/material";
 import AddIcon from '@mui/icons-material/Add';
 import SearchIcon from '@mui/icons-material/Search';
@@ -53,33 +54,16 @@ export default function UsersPage() {
           Categories
         </Typography>
         
-        {isMobile ? (
-          <IconButton
-            color="primary"
-            onClick={handleAddCategory}
-            sx={{
-              bgcolor: 'primary.main',
-              color: 'white',
-              '&:hover': { bgcolor: 'primary.dark' }
-            }}
-          >
-            <AddIcon />
-          </IconButton>
-        ) : (
-          <Button 
-            variant="contained"
-            onClick={handleAddCategory}
-            startIcon={<AddIcon />}
-            sx={{
-              height: 45,
-              px: 3,
-              fontWeight: "bold",
-              textTransform: 'none'
-            }}
-          >
-            Add New Category
-          </Button>
-        )}
+        <Icon
+          onClick={handleAddCategory}
+          color="primary"
+          fontSize="large"
+          sx={{
+            cursor: "pointer",
+          }}
+        >
+          add_circle
+        </Icon>
       </Box>
 
       <Paper elevation={3} sx={{ 

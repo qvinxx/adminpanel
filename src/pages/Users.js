@@ -11,7 +11,8 @@ import {
   MenuItem,
   Select,
   FormControl,
-  InputLabel
+  InputLabel,
+  Icon
 } from "@mui/material";
 import { DataGrid } from '@mui/x-data-grid';
 import SearchIcon from '@mui/icons-material/Search';
@@ -79,33 +80,16 @@ function UsersPage() {
           Users
         </Typography>
         
-        {isMobile ? (
-          <IconButton
-            color="primary"
-            onClick={handleAddUserClick}
-            sx={{
-              bgcolor: 'primary.main',
-              color: 'white',
-              '&:hover': { bgcolor: 'primary.dark' }
-            }}
-          >
-            <AddIcon />
-          </IconButton>
-        ) : (
-          <Button 
-            variant="contained"
-            onClick={handleAddUserClick}
-            startIcon={<AddIcon />}
-            sx={{
-              height: 45,
-              px: 3,
-              fontWeight: "bold",
-              textTransform: 'none'
-            }}
-          >
-            Add New User
-          </Button>
-        )}
+        <Icon
+          onClick={handleAddUserClick}
+          color="primary"
+          fontSize="large"
+          sx={{
+            cursor: "pointer",
+          }}
+        >
+          add_circle
+        </Icon>
       </Box>
 
       <Paper elevation={3} sx={{ 

@@ -8,6 +8,7 @@ import {
   useMediaQuery, 
   useTheme, 
   IconButton,
+  Icon,
 } from "@mui/material";
 import AddIcon from '@mui/icons-material/Add';
 import SearchIcon from '@mui/icons-material/Search';
@@ -54,33 +55,16 @@ export default function ProductsPage () {
           Products
         </Typography>
         
-        {isMobile ? (
-          <IconButton
-            color="primary"
-            onClick={handleAddProduct}
-            sx={{
-              bgcolor: 'primary.main',
-              color: 'white',
-              '&:hover': { bgcolor: 'primary.dark' }
-            }}
-          >
-            <AddIcon />
-          </IconButton>
-        ) : (
-          <Button 
-            variant="contained"
-            onClick={handleAddProduct}
-            startIcon={<AddIcon />}
-            sx={{
-              height: 45,
-              px: 3,
-              fontWeight: "bold",
-              textTransform: 'none'
-            }}
-          >
-            Add New Product
-          </Button>
-        )}
+        <Icon
+          onClick={handleAddProduct}
+          color="primary"
+          fontSize="large"
+          sx={{
+            cursor: "pointer",
+          }}
+        >
+          add_circle
+        </Icon>
       </Box>
 
       <Paper elevation={3} sx={{ 
