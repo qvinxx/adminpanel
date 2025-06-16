@@ -10,13 +10,10 @@ import {
 } from "@mui/material";
 import {
   Search as SearchIcon,
-  Delete as DeleteIcon,
-  Edit as EditIcon,
 } from "@mui/icons-material";
 import React, { useState } from "react";
 import AddButtonDialog from "../components/AddCommentDialog";
 import { commentRows, useCommentColumns } from "../data/commentsData";
-import { useNavigate } from "react-router-dom";
 import { DataGrid } from "@mui/x-data-grid";
 
 export default function CommentsPage() {
@@ -24,7 +21,6 @@ export default function CommentsPage() {
   const isMobile = useMediaQuery(theme.breakpoints.down("sm"));
   const [openDialog, setOpenDialog] = useState(false);
   const [searchText, setSearchText] = useState("");
-  const navigate = useNavigate();
   const columns = useCommentColumns();
 
   const filteredRows = commentRows.filter((row) =>
@@ -47,7 +43,6 @@ export default function CommentsPage() {
         flexDirection: "column",
       }}
     >
-      {/* Header Section */}
       <Box
         sx={{
           display: "flex",

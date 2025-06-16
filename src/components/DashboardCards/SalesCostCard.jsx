@@ -51,7 +51,6 @@ export const SalesCostCard = () => {
         }}
       >
         <Box>
-          {/* Header */}
           <Stack spacing={0.5} mb={4}>
             <Typography variant="subtitle1" fontWeight={600}>
               Total Sales & Costs
@@ -61,7 +60,6 @@ export const SalesCostCard = () => {
             </Typography>
           </Stack>
 
-          {/* Metrics */}
           <Stack direction="row" spacing={1} mb={3} alignItems={"baseline"}>
             <Typography variant="h4" fontWeight={700}>
               $350K

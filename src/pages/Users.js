@@ -4,20 +4,13 @@ import {
   TextField, 
   Paper, 
   InputAdornment, 
-  Button, 
   useMediaQuery, 
   useTheme, 
-  IconButton,
-  MenuItem,
-  Select,
-  FormControl,
-  InputLabel,
   Icon
 } from "@mui/material";
 import { DataGrid } from '@mui/x-data-grid';
 import SearchIcon from '@mui/icons-material/Search';
 import { useState } from 'react';
-import AddIcon from '@mui/icons-material/Add';
 import { userColumns, userRows } from '../data/userData';
 import { useNavigate } from 'react-router-dom';
 

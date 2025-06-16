@@ -23,7 +23,6 @@ const Usersdata = [
 ];
 
 export const UsersCard = () => {
-  const isMobile = useMediaQuery(theme.breakpoints.down("sm"));
   const isSmallScreen = useMediaQuery(theme.breakpoints.down("md"));
 
   return (

@@ -34,7 +34,6 @@ export const OrdersCard = () => {
         borderRadius: "12px",
         boxShadow: "0px 4px 12px rgba(0, 0, 0, 0.05)",
         height: "100%",
-        // width: isSmallScreen? "50%" : "33%",
       }}
     >
       <CardContent

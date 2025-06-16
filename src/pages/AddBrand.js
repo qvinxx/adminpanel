@@ -6,17 +6,10 @@ import {
   TextField, 
   Typography, 
   useTheme, 
-  useMediaQuery, 
-  InputAdornment, 
-  FormControl, 
-  InputLabel, 
-  Select, 
-  MenuItem, 
+  useMediaQuery,  
   Card, 
-  CardContent,
   IconButton,
   FormControlLabel,
-  Checkbox,
   Radio,
   RadioGroup
 } from '@mui/material';

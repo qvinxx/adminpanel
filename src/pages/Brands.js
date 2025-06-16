@@ -1,6 +1,5 @@
 import {
   Box,
-  Button,
   Card,
   CardActions,
   CardContent,
@@ -14,7 +13,6 @@ import { useNavigate } from "react-router-dom";
 import { brands } from "../data/brandsData";
 import DeleteIcon from "@mui/icons-material/Delete";
 import EditIcon from "@mui/icons-material/Edit";
-import AddIcon from "@mui/icons-material/Add";
 import Icon from "@mui/material/Icon";
 
 export default function BrandsPage() {
@@ -31,7 +29,7 @@ export default function BrandsPage() {
     >
       <Box
         sx={{
-          display: "Flex",
+          display: "flex",
           justifyContent: "space-between",
           alignItems: "center",
         }}

@@ -25,8 +25,6 @@ const ProfitData = [
 ];
 
 export const ProfitCard = () => {
-  const isMobile = useMediaQuery(theme.breakpoints.down("sm"));
-  const isSmallScreen = useMediaQuery(theme.breakpoints.down("md"));
 
   return (
     <Card
@@ -34,7 +32,6 @@ export const ProfitCard = () => {
         borderRadius: "12px",
         boxShadow: "0px 4px 12px rgba(0, 0, 0, 0.05)",
         height: "100%",
-        // width: isSmallScreen? "50%": "33%",
       }}
     >
       <CardContent

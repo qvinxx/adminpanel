@@ -10,7 +10,7 @@ import {
 import { theme } from "../../../config/Theme";
 import CompactBarChart, { UsersActivityData } from "./CompactBarChart";
 import KeyboardArrowUpIcon from "@mui/icons-material/KeyboardArrowUp";
-import KeyboardArrowDownIcon from '@mui/icons-material/KeyboardArrowDown';
+import KeyboardArrowDownIcon from "@mui/icons-material/KeyboardArrowDown";
 
 export const LastUsersCard = () => {
   const isMobile = useMediaQuery(theme.breakpoints.down("sm"));
@@ -183,7 +183,7 @@ export const LastUsersCard = () => {
           justifyContent={"flex-start"}
         >
           <Avatar alt="USA" />
-          <Box minWidth={98}> 
+          <Box minWidth={98}>
             <Typography fontSize={"18px"} fontWeight={"bold"}>
               17k
             </Typography>

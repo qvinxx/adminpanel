@@ -8,15 +8,7 @@ import {
   useTheme, 
   useMediaQuery, 
   InputAdornment, 
-  FormControl, 
-  InputLabel, 
-  Select, 
-  MenuItem, 
-  Card, 
-  CardContent,
-  IconButton
 } from '@mui/material';
-import { CropOriginal as CropOriginalIcon, Delete as DeleteIcon } from '@mui/icons-material';
 import CustomDatePicker from '../components/DatePicker';
 
 const AddOrderPage = () => {

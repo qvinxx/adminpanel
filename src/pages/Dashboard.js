@@ -15,7 +15,6 @@ import { TodayOrders } from "../components/DashboardCards/TodayOrder";
 import { RecentOrders } from "../components/DashboardCards/RecentOrders";
 
 export default function DashboardPage() {
-  const isMobile = useMediaQuery(theme.breakpoints.down("sm"));
   const isSmallScreen = useMediaQuery(theme.breakpoints.down("md"));
 
   return (
