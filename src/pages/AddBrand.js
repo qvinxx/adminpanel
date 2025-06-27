@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useCallback } from 'react';
 import { 
   Box, 
   Button, 
@@ -11,26 +11,69 @@ import {
   IconButton,
   FormControlLabel,
   Radio,
-  RadioGroup
+  RadioGroup,
+  Snackbar,
+  Alert
 } from '@mui/material';
 import { CropOriginal as CropOriginalIcon, Delete as DeleteIcon } from '@mui/icons-material';
+import { useNavigate } from 'react-router-dom';
 
 const AddBrandsPage = () => {
   const theme = useTheme();
   const isMobile = useMediaQuery(theme.breakpoints.down('sm'));
   const isSmallScreen = useMediaQuery(theme.breakpoints.down('md'));
+  const navigate = useNavigate();
   
-  const [category, setCategory] = useState('');
-  const [productImages, setProductImages] = useState([]);
+  const [brandData, setBrandData] = useState({
+    name: '',
+    productCount: '',
+    status: 'active',
+    logo: ''
+  });
 
-  const handleCategoryChange = (event) => {
-    setCategory(event.target.value);
+  const [productImages, setProductImages] = useState([]);
+  const [errors, setErrors] = useState({});
+  const [snackbar, setSnackbar] = useState({
+    open: false,
+    message: '',
+    severity: 'success'
+  });
+
+  const handleChange = (e) => {
+    const { name, value } = e.target;
+    setBrandData(prev => ({
+      ...prev,
+      [name]: value
+    }));
+    
+    // Clear error when field is changed
+    if (errors[name]) {
+      setErrors(prev => ({
+        ...prev,
+        [name]: ''
+      }));
+    }
+  };
+
+  const validateForm = () => {
+    const newErrors = {};
+    if (!brandData.name.trim()) newErrors.name = 'Brand name is required';
+    if (!brandData.productCount) newErrors.productCount = 'Product count is required';
+    if (isNaN(brandData.productCount)) newErrors.productCount = 'Must be a number';
+    if (productImages.length === 0) newErrors.images = 'At least one image is required';
+    
+    setErrors(newErrors);
+    return Object.keys(newErrors).length === 0;
   };
 
   const handleImageUpload = (e) => {
     const files = Array.from(e.target.files);
     if (files.length + productImages.length > 4) {
-      alert('Maximum 4 images allowed');
+      setSnackbar({
+        open: true,
+        message: 'Maximum 4 images allowed',
+        severity: 'warning'
+      });
       return;
     }
     
@@ -41,10 +84,78 @@ const AddBrandsPage = () => {
     }));
     
     setProductImages(prev => [...prev, ...newImages]);
+    
+    if (errors.images) {
+      setErrors(prev => ({
+        ...prev,
+        images: ''
+      }));
+    }
   };
 
   const handleRemoveImage = (id) => {
-    setProductImages(prev => prev.filter(img => img.id !== id));
+    setProductImages(prev => {
+      const newImages = prev.filter(img => img.id !== id);
+      if (newImages.length === 0) {
+        setErrors(prev => ({
+          ...prev,
+          images: 'At least one image is required'
+        }));
+      }
+      return newImages;
+    });
+  };
+
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    
+    if (!validateForm()) return;
+    
+    try {
+      // Get the first image as logo (you might want to handle this differently)
+      const logo = productImages[0]?.preview || '';
+      
+      const newBrand = {
+        ...brandData,
+        id: Date.now(),
+        logo,
+        productCount: parseInt(brandData.productCount),
+        images: productImages.map(img => img.preview)
+      };
+      
+      // Save to localStorage
+      const existingBrands = JSON.parse(localStorage.getItem('brands')) || [];
+      const updatedBrands = [...existingBrands, newBrand];
+      localStorage.setItem('brands', JSON.stringify(updatedBrands));
+      
+      setSnackbar({
+        open: true,
+        message: 'Brand added successfully!',
+        severity: 'success'
+      });
+      
+      // Reset form
+      setBrandData({
+        name: '',
+        productCount: '',
+        status: 'active',
+        logo: ''
+      });
+      setProductImages([]);
+      
+      // Navigate after delay
+      setTimeout(() => navigate('/brands'), 1500);
+    } catch (error) {
+      setSnackbar({
+        open: true,
+        message: 'Error saving brand: ' + error.message,
+        severity: 'error'
+      });
+    }
+  };
+
+  const handleCloseSnackbar = () => {
+    setSnackbar(prev => ({ ...prev, open: false }));
   };
 
   return (
@@ -75,9 +186,14 @@ const AddBrandsPage = () => {
               </Typography>
               <TextField
                 fullWidth
+                name="name"
+                value={brandData.name}
+                onChange={handleChange}
                 variant="outlined"
                 placeholder="Enter brand name"
                 size="small"
+                error={!!errors.name}
+                helperText={errors.name}
                 sx={{
                   '& .MuiOutlinedInput-root': {
                     borderRadius: 2,
@@ -93,9 +209,14 @@ const AddBrandsPage = () => {
                 </Typography>
                 <TextField
                   fullWidth
+                  name="productCount"
+                  value={brandData.productCount}
+                  onChange={handleChange}
                   variant="outlined"
                   placeholder="Enter quantity"
                   size="small"
+                  error={!!errors.productCount}
+                  helperText={errors.productCount}
                   sx={{
                     '& .MuiOutlinedInput-root': {
                       borderRadius: 2,
@@ -110,9 +231,9 @@ const AddBrandsPage = () => {
                 </Typography>
                 <Box display={'flex'} flexDirection={'column'}>
                   <RadioGroup
-                    aria-labelledby="demo-radio-buttons-group-label"
-                    defaultValue="active"
-                    name="radio-buttons-group"
+                    name="status"
+                    value={brandData.status}
+                    onChange={handleChange}
                   >
                     <FormControlLabel value="active" control={<Radio />} label="Active" />
                     <FormControlLabel value="inactive" control={<Radio />} label="Inactive" />
@@ -139,6 +260,12 @@ const AddBrandsPage = () => {
             </Typography> 
             {' '}Upload SVG, PNG, or JPG (Max 4MB per image)
           </Typography>
+
+          {errors.images && (
+            <Typography color="error" variant="body2" mb={1}>
+              {errors.images}
+            </Typography>
+          )}
 
           <Box
             sx={{
@@ -182,7 +309,7 @@ const AddBrandsPage = () => {
                 <Box
                   component="img"
                   src={image.preview}
-                  alt="Product preview"
+                  alt="Brand preview"
                   sx={{
                     width: '100%',
                     height: '100%',
@@ -210,21 +337,37 @@ const AddBrandsPage = () => {
             ))}
           </Box>
           <Button
-          variant="contained"
-          size="large"
-          fullWidth
-          sx={{
-            mt: 2,
-            height: 48,
-            borderRadius: 2,
-            textTransform: 'none',
-            fontWeight: 'bold'
-          }}
-        >
-          Save
-        </Button>
+            variant="contained"
+            size="large"
+            fullWidth
+            onClick={handleSubmit}
+            sx={{
+              mt: 2,
+              height: 48,
+              borderRadius: 2,
+              textTransform: 'none',
+              fontWeight: 'bold'
+            }}
+          >
+            Save Brand
+          </Button>
         </Paper>
       </Box>
+
+      <Snackbar
+        open={snackbar.open}
+        autoHideDuration={6000}
+        onClose={handleCloseSnackbar}
+        anchorOrigin={{ vertical: 'bottom', horizontal: 'right' }}
+      >
+        <Alert
+          onClose={handleCloseSnackbar}
+          severity={snackbar.severity}
+          sx={{ width: '100%' }}
+        >
+          {snackbar.message}
+        </Alert>
+      </Snackbar>
     </Box>
   );
 };

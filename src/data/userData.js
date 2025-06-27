@@ -3,6 +3,7 @@ import EditIcon from '@mui/icons-material/Edit';
 import DeleteIcon from '@mui/icons-material/Delete';
 import VisibilityIcon from '@mui/icons-material/Visibility';
 
+
 export const userColumns = [
   { field: 'id', headerName: 'ID', width: 1 },
   { field: 'name', headerName: 'Name', width: 200 },
@@ -14,7 +15,7 @@ export const userColumns = [
     headerName: 'Address', 
     width: 250,
     renderCell: (params) => (
-      <Box sx={{ whiteSpace: 'normal', }}>
+      <Box sx={{ whiteSpace: 'normal' }}>
         {params.value}
       </Box>
     )
@@ -29,17 +30,17 @@ export const userColumns = [
     renderCell: (params) => (
       <Box sx={{ display: 'flex', gap: 1 }}>
         <Tooltip title="View">
-          <IconButton onClick={() => handleView(params.row.id)}>
+          <IconButton onClick={() => params.row.handleView(params.row.id)}>
             <VisibilityIcon fontSize="small" color="info" />
           </IconButton>
         </Tooltip>
         <Tooltip title="Edit">
-          <IconButton onClick={() => handleEdit(params.row.id)}>
+          <IconButton onClick={() => params.row.handleEdit(params.row.id)}>
             <EditIcon fontSize="small" color="primary" />
           </IconButton>
         </Tooltip>
         <Tooltip title="Delete">
-          <IconButton onClick={() => handleDelete(params.row.id)}>
+          <IconButton onClick={() => params.row.handleDelete(params.row.id)}>
             <DeleteIcon fontSize="small" color="error" />
           </IconButton>
         </Tooltip>
@@ -59,14 +60,3 @@ export const userRows = [
   { id: 8, name: 'Aman Amanow', email: 'example@gmail.com', phone: '+123456789', orders: 1, address: '2972 Westheimer Rd. Santa Ana, Illinois 85486' },
   { id: 9, name: 'Aman Amanow', email: 'example@gmail.com', phone: '+123456789', orders: 2, address: '2972 Westheimer Rd. Santa Ana, Illinois 85486' },
 ];
-
-const handleView = (id) => {
-
-};
-
-const handleEdit = (id) => {
-
-};
-
-const handleDelete = (id) => {
-};

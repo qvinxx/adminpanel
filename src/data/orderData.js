@@ -9,23 +9,6 @@ const categoryHandlers = {
   handleDelete: (id) => console.log('Delete product', id),
 };
 
-const categoryImages = {
-  1: '/images/earbuds.jpg',
-  2: '/images/gaming-laptop.jpg',
-  3: '/images/smartphone.jpg',
-  4: '/images/tshirt.jpg',
-  5: '/images/wallet.jpg',
-  6: '/images/running-shoes.jpg',
-  7: '/images/dinner-set.jpg',
-  8: '/images/coffee-table.jpg',
-  9: '/images/cookware.jpg',
-  10: '/images/yoga-mat.jpg',
-  11: '/images/dumbbells.jpg',
-  12: '/images/tent.jpg',
-  13: '/images/board-game.jpg',
-  14: '/images/robotics-kit.jpg',
-};
-
 export const useOrderColumns = () => {
   const theme = useTheme()
   const isMobile = useMediaQuery(theme.breakpoints.down(700));
@@ -33,52 +16,32 @@ export const useOrderColumns = () => {
 
   return [
     { 
-      field: 'picture', 
-      headerName: '', 
-      width: 50,
-      sortable: false,
-      filterable: false,
-      disableColumnMenu: true,
-      renderCell: (params) => (
-        <Box sx={{
-          display: 'flex',
-          justifyContent: 'center',
-        }}>
-          <Avatar 
-            src={categoryImages[params.row.id]}
-            variant="square"
-            sx={{ width: 40, height: 40, borderRadius: 1 }}
-          />
-        </Box>
-      )
-    },
-    { 
       field: 'orders', 
       headerName: 'Orders', 
-      width: isMobile ? 150 : 200,
+      width: isMobile ? 160 : 210,
       renderCell: (params) => (
         <Box sx={{ display: 'flex', alignItems: 'center' }}>
           <Typography variant="body2">{params.row.name}</Typography>
         </Box>
       )
     },
-    { field: 'customer', headerName: 'Customer', width: isMobile ? 120 : 160,
+    { field: 'customer', headerName: 'Customer', width: isMobile ? 130 : 170,
       renderCell: (params) => (
         <Box sx={{ display: 'flex', alignItems: 'center' }}>
           <Typography variant="body2">{params.row.customer}</Typography>
         </Box>
       )
     },
-    { field: 'price', headerName: 'Price', width: isMobile ? 100 : 120,
+    { field: 'price', headerName: 'Price', width: isMobile ? 110 : 130,
       renderCell: (params) => (
         <Box sx={{ display: 'flex', alignItems: 'center',}}>
           <Typography variant="body2">{params.row.price}</Typography>
         </Box>
       )
      },
-    { field: 'date', headerName: 'Date', width: isMobile ? 80 : 100,
+    { field: 'date', headerName: 'Date', width: isMobile ? 90 : 110,
       renderCell: (params) => (
-        <Box sx={{ display: 'flex', alignItems: 'center' }}>
+        <Box sx={{ display: 'flex', alignItems: 'center', justifyContent: "center" }}>
           <Typography variant="body2">{params.row.date}</Typography>
         </Box>
       )
@@ -166,24 +129,24 @@ export const useOrderColumns = () => {
     {
       field: 'actions',
       headerName: 'Actions',
-      width: 150,
+      width: 160,
       sortable: false,
       filterable: false,
       disableColumnMenu: true,
       renderCell: (params) => (
         <Box sx={{ display: 'flex', gap: 1 }}>
           <Tooltip title="View">
-            <IconButton onClick={() => categoryHandlers.handleView(params.row.id)}>
+            <IconButton onClick={() => params.row.handleView(params.row.id)} size="small">
               <VisibilityIcon fontSize="small" color="info" />
             </IconButton>
           </Tooltip>
           <Tooltip title="Edit">
-            <IconButton onClick={() => categoryHandlers.handleEdit(params.row.id)}>
+            <IconButton onClick={() => params.row.handleEdit(params.row.id)} size="small">
               <EditIcon fontSize="small" color="primary" />
             </IconButton>
           </Tooltip>
           <Tooltip title="Delete">
-            <IconButton onClick={() => categoryHandlers.handleDelete(params.row.id)}>
+            <IconButton onClick={() => params.row.handleDelete(params.row.id)} size="small">
               <DeleteIcon fontSize="small" color="error" />
             </IconButton>
           </Tooltip>

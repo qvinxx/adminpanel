@@ -1,52 +1,111 @@
-import React from 'react';
-import { Box, Button, Paper, TextField, Typography, useTheme, useMediaQuery } from '@mui/material';
+import React, { useState } from "react";
+import {
+  Box,
+  Button,
+  Paper,
+  TextField,
+  Typography,
+  useTheme,
+  useMediaQuery,
+} from "@mui/material";
+import { useLocation, useNavigate } from "react-router-dom";
 
 const AddUserPage = () => {
   const theme = useTheme();
   const isMobile = useMediaQuery(theme.breakpoints.down(700));
   const isSmallScreen = useMediaQuery(theme.breakpoints.down(1280));
+  const navigate = useNavigate();
+  const location = useLocation();
+  
+  const [userData, setUserData] = useState({
+    name: "",
+    email: "",
+    phone: "",
+    orders: "",
+    address: "",
+  });
+
+  const handleInputChange = (e) => {
+    const { name, value } = e.target;
+    setUserData((prev) => ({
+      ...prev,
+      [name]: value,
+    }));
+  };
+
+  const handleSaveUser = () => {
+    const currentUsers = JSON.parse(localStorage.getItem('users')) || [];
+    
+    const newId = currentUsers.length > 0 
+      ? Math.max(...currentUsers.map(user => user.id)) + 1 
+      : 1;
+
+    const newUser = {
+      id: newId,
+      name: userData.name,
+      email: userData.email,
+      phone: userData.phone,
+      orders: parseInt(userData.orders) || 0,
+      address: userData.address,
+    };
+
+    const updatedUsers = [...currentUsers, newUser];
+    
+    localStorage.setItem('users', JSON.stringify(updatedUsers));
+    
+    navigate("/users");
+  };
 
   return (
     <Box>
-      <Typography variant='h5' color='primary' fontWeight={'bold'} mb={1}>Add User</Typography>
-      <Paper elevation={2} sx={{
-        width: isSmallScreen ? '100%' : '50%',
-        p: 2.5,
-        borderRadius: 3
-      }}>
-        <Typography variant='h5' fontWeight={'bold'} mb={1}>User</Typography>
-        <Typography fontSize={15} mb={1} color='gray'>Lorem ipsum dolor sit amet consectetur. Non ac nulla aliquam aenean in velit mattis.</Typography>
-        <Typography variant='h6' fontWeight={'bold'} mb={1}>User Name</Typography>
-        <Box
-          component="form"
-          sx={{ 
+      <Typography variant="h5" color="primary" fontWeight={"bold"} mb={1}>
+        Add User
+      </Typography>
+      <Paper
+        elevation={2}
+        sx={{
+          width: "100%",
+          p: 2.5,
+          borderRadius: 3,
+        }}
+      > 
+        <Typography variant="h6" fontWeight={"bold"} mb={1}>
+          User Name
+        </Typography>
+        <TextField
+          fullWidth
+          name="name"
+          variant="outlined"
+          placeholder="Input name"
+          value={userData.name}
+          onChange={handleInputChange}
+          sx={{
+            mb: 2,
             '& .MuiOutlinedInput-root': {
-              padding: '8px 12px',
               height: '50px',
               borderRadius: 3,
-              pr: 0
-            },
-            '& .MuiOutlinedInput-input': {
-              padding: '10px 0',
             },
           }}
-          noValidate
-          autoComplete="off"
-        >
-          <TextField
-            fullWidth
-            variant="outlined"
-            placeholder="Input name"
-          />
-        </Box>
+        />
 
-        <Box display={'flex'} flexDirection={isMobile ? 'column' : 'row'} justifyContent={'space-between'} gap={2} mt={2}>
-          <Box width={'100%'}>
-            <Typography variant='h6' fontWeight={'bold'} my={1}>Email</Typography>
+        <Box
+          display={"flex"}
+          flexDirection={isMobile ? "column" : "row"}
+          justifyContent={"space-between"}
+          gap={2}
+          mt={2}
+        >
+          <Box width={"100%"}>
+            <Typography variant="h6" fontWeight={"bold"} mb={1}>
+              Email
+            </Typography>
             <TextField
               fullWidth
+              name="email"
               variant="outlined"
               placeholder="Input email"
+              value={userData.email}
+              onChange={handleInputChange}
               sx={{
                 '& .MuiOutlinedInput-root': {
                   height: '50px',
@@ -55,12 +114,17 @@ const AddUserPage = () => {
               }}
             />
           </Box>
-          <Box width={'100%'}>
-            <Typography variant='h6' fontWeight={'bold'} my={1}>Handphone</Typography>
+          <Box width={"100%"}>
+            <Typography variant="h6" fontWeight={"bold"} mb={1}>
+              Phone
+            </Typography>
             <TextField
               fullWidth
+              name="phone"
               variant="outlined"
               placeholder="Input phone number"
+              value={userData.phone}
+              onChange={handleInputChange}
               sx={{
                 '& .MuiOutlinedInput-root': {
                   height: '50px',
@@ -70,27 +134,26 @@ const AddUserPage = () => {
             />
           </Box>
         </Box>
-        <Box display={'flex'} flexDirection={isMobile ? 'column' : 'row'} justifyContent={'space-between'} gap={2} mt={2}>
-          <Box width={isMobile ? '100%' : '100%'}>
-            <Typography variant='h6' fontWeight={'bold'} my={1}>Purchases</Typography>
+
+        <Box
+          display={"flex"}
+          flexDirection={isMobile ? "column" : "row"}
+          justifyContent={"space-between"}
+          gap={2}
+          mt={2}
+        >
+          <Box width={"100%"}>
+            <Typography variant="h6" fontWeight={"bold"} mb={1}>
+              Orders
+            </Typography>
             <TextField
               fullWidth
+              name="orders"
               variant="outlined"
-              placeholder="Total Purchases"
-              sx={{
-                '& .MuiOutlinedInput-root': {
-                  height: '50px',
-                  borderRadius: 3,
-                },
-              }}
-            />
-          </Box>
-          <Box width={isMobile ? '100%' : '100%'}>
-            <Typography variant='h6' fontWeight={'bold'} my={1}>Order Quantity</Typography>
-            <TextField
-              fullWidth
-              variant="outlined"
-              placeholder="Order Quantity"
+              placeholder="Total orders"
+              type="number"
+              value={userData.orders}
+              onChange={handleInputChange}
               sx={{
                 '& .MuiOutlinedInput-root': {
                   height: '50px',
@@ -102,32 +165,38 @@ const AddUserPage = () => {
         </Box>
 
         <Box mt={2}>
-          <Typography variant='h6' fontWeight={'bold'} my={1}>Address</Typography>
+          <Typography variant="h6" fontWeight={"bold"} mb={1}>
+            Address
+          </Typography>
           <TextField
             fullWidth
+            name="address"
             multiline
             rows={3}
             variant="outlined"
             placeholder="Address"
+            value={userData.address}
+            onChange={handleInputChange}
             sx={{
               '& .MuiOutlinedInput-root': {
                 borderRadius: 3,
-                mb: 1
               },
             }}
           />
         </Box>
 
         <Button
-          variant='contained' 
-          fullWidth 
+          onClick={handleSaveUser}
+          variant="contained"
+          fullWidth
+          disabled={!userData.name || !userData.email}
           sx={{
             borderRadius: 3,
-            textTransform: 'none',
-            mt: 2,
-            height: '50px',
-            fontSize: '16px',
-            fontWeight: 'bold'
+            textTransform: "none",
+            mt: 3,
+            height: "50px",
+            fontSize: "16px",
+            fontWeight: "bold",
           }}
         >
           Save User

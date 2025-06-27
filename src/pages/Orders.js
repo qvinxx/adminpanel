@@ -10,19 +10,75 @@ import {
 } from "@mui/material";
 import SearchIcon from '@mui/icons-material/Search';
 import { DataGrid } from '@mui/x-data-grid';
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
-import { useOrderColumns, productRows, } from "../data/orderData";
+import { useOrderColumns, productRows } from "../data/orderData";
 
-
-export default function OrdersPage () {
+export default function OrdersPage() {
   const [searchText, setSearchText] = useState('');
+  const [rows, setRows] = useState(() => {
+    const savedOrders = localStorage.getItem('orders');
+    return savedOrders ? JSON.parse(savedOrders) : productRows;
+  });
   const navigate = useNavigate();
   const theme = useTheme();
   const isMobile = useMediaQuery(theme.breakpoints.down('sm'));
   const columns = useOrderColumns();
 
-  const filteredRows = productRows.filter(row =>
+  useEffect(() => {
+    localStorage.setItem('orders', JSON.stringify(rows));
+  }, [rows]);
+
+  const handleDelete = (id) => {
+    setRows(prev => prev.filter(row => row.id !== id));
+  };
+
+  const handleEdit = (id) => {
+    navigate(`/entity/edit/${id}`, {
+      state: {
+        storageKey: "orders",
+        title: "Edit Order",
+        idKey: "id",
+        redirectTo: "/orders",
+        fields: [
+          { name: "name", label: "Order Name" },
+          { name: "customer", label: "Customer" },
+          { name: "price", label: "Price" },
+          { name: "date", label: "Date" },
+          { name: "payment", label: "Payment", type: "select", options: ["Paid", "Unpaid"] },
+          { name: "status", label: "Status", type: "select", options: ["Shipping", "Cancelled"] },
+        ],
+      },
+    });
+  };
+
+  const handleView = (id) => {
+    navigate(`/entity/view/${id}`, {
+      state: {
+        storageKey: "orders",
+        title: "View Order",
+        idKey: "id",
+        fields: [
+          { name: "name", label: "Order Name" },
+          { name: "customer", label: "Customer" },
+          { name: "price", label: "Price" },
+          { name: "date", label: "Date" },
+          { name: "payment", label: "Payment",},
+          { name: "status", label: "Status",},
+        ],
+        redirectTo: "/orders",
+      },
+    });
+  };
+
+  const rowsWithHandlers = rows.map(row => ({
+    ...row,
+    handleView,
+    handleEdit,
+    handleDelete,
+  }));
+
+  const filteredRows = rowsWithHandlers.filter(row =>
     Object.values(row).some(
       value => String(value).toLowerCase().includes(searchText.toLowerCase())
     )
@@ -39,6 +95,7 @@ export default function OrdersPage () {
       height: '100vh',
       display: 'flex',
       flexDirection: 'column',
+      backgroundColor: theme.palette.grey[50],
     }}>
       <Box sx={{
         display: 'flex',
@@ -58,6 +115,10 @@ export default function OrdersPage () {
           fontSize="large"
           sx={{
             cursor: "pointer",
+            '&:hover': {
+              transform: 'scale(1.1)',
+              transition: 'transform 0.2s',
+            }
           }}
         >
           add_circle
@@ -79,7 +140,7 @@ export default function OrdersPage () {
           <TextField
             fullWidth
             variant="outlined"
-            placeholder={isMobile ? "Search..." : "Search..."}
+            placeholder="Search orders..."
             size={isMobile ? "small" : "medium"}
             value={searchText}
             onChange={(e) => setSearchText(e.target.value)}
@@ -123,14 +184,10 @@ export default function OrdersPage () {
             <DataGrid
               rows={filteredRows}
               columns={columns}
-              getRowHeight={() => null}
-              groupingColDef={{
-                headerName: 'Hierarchy',
-                width: 200,
-              }}
               sx={{ 
                 '& .MuiDataGrid-cell': {
                   py: isMobile ? 0.5 : 1,
+                  alignItems: 'center',
                 },
                 '& .MuiDataGrid-columnHeaders': {
                   backgroundColor: theme.palette.grey[100],

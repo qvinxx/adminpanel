@@ -3,12 +3,6 @@ import EditIcon from '@mui/icons-material/Edit';
 import DeleteIcon from '@mui/icons-material/Delete';
 import VisibilityIcon from '@mui/icons-material/Visibility';
 
-const categoryHandlers = {
-  handleView: (id) => console.log('View category', id),
-  handleEdit: (id) => console.log('Edit category', id),
-  handleDelete: (id) => console.log('Delete category', id),
-};
-
 export const useCategoryColumns = () => {
   const theme = useTheme()
   const isMobile = useMediaQuery(theme.breakpoints.down(700));
@@ -38,17 +32,17 @@ export const useCategoryColumns = () => {
       renderCell: (params) => (
         <Box sx={{ display: 'flex', gap: 1 }}>
           <Tooltip title="View">
-            <IconButton onClick={() => categoryHandlers.handleView(params.row.id)}>
+            <IconButton onClick={() => params.row.handleView(params.row.id)}>
               <VisibilityIcon fontSize="small" color="info" />
             </IconButton>
           </Tooltip>
           <Tooltip title="Edit">
-            <IconButton onClick={() => categoryHandlers.handleEdit(params.row.id)}>
+            <IconButton onClick={() => params.row.handleEdit(params.row.id)}>
               <EditIcon fontSize="small" color="primary" />
             </IconButton>
           </Tooltip>
           <Tooltip title="Delete">
-            <IconButton onClick={() => categoryHandlers.handleDelete(params.row.id)}>
+            <IconButton onClick={() => params.row.handleDelete(params.row.id)}>
               <DeleteIcon fontSize="small" color="error" />
             </IconButton>
           </Tooltip>

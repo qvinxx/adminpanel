@@ -1,64 +1,67 @@
-import * as React from 'react';
-import { 
-  AppBar, 
-  Box, 
-  CssBaseline, 
-  Divider, 
-  Drawer, 
-  IconButton, 
-  List, 
-  ListItem, 
+import * as React from "react";
+import {
+  AppBar,
+  Box,
+  CssBaseline,
+  Divider,
+  Drawer,
+  IconButton,
+  List,
+  ListItem,
   ListItemButton,
   ListItemIcon,
   ListItemText,
-  Toolbar, 
-  Typography, 
-  TextField, 
-  InputAdornment, 
+  Toolbar,
+  Typography,
+  TextField,
+  InputAdornment,
   Avatar,
   styled,
   Button,
-} from '@mui/material';
-import { theme } from '../config/Theme';
-import { Routes, Route, Link, useLocation } from 'react-router-dom';
-import SearchIcon from '@mui/icons-material/Search';
-import MenuIcon from '@mui/icons-material/Menu';
-import DashboardIcon from '@mui/icons-material/Dashboard';
-import PersonIcon from '@mui/icons-material/Person';
-import CategoryIcon from '@mui/icons-material/Category';
-import StorefrontIcon from '@mui/icons-material/Storefront';
-import CopyrightIcon from '@mui/icons-material/Copyright';
-import CommentIcon from '@mui/icons-material/Comment';
-import LocalShippingIcon from '@mui/icons-material/LocalShipping';
+} from "@mui/material";
+import { theme } from "../config/Theme";
+import { Routes, Route, Link, useLocation } from "react-router-dom";
+import SearchIcon from "@mui/icons-material/Search";
+import MenuIcon from "@mui/icons-material/Menu";
+import DashboardIcon from "@mui/icons-material/Dashboard";
+import PersonIcon from "@mui/icons-material/Person";
+import CategoryIcon from "@mui/icons-material/Category";
+import StorefrontIcon from "@mui/icons-material/Storefront";
+import CopyrightIcon from "@mui/icons-material/Copyright";
+import CommentIcon from "@mui/icons-material/Comment";
+import LocalShippingIcon from "@mui/icons-material/LocalShipping";
 
-import DashboardPage from '../pages/Dashboard';
-import UsersPage from '../pages/Users';
-import AddUser from '../pages/AddUser'
-import CategoriesPage from '../pages/Categories';
-import ProductsPage from '../pages/Products'
-import BrandsPage from '../pages/Brands'
-import CommentsPage from '../pages/Comments';
-import OrdersPage from '../pages/Orders'
-import AddCategories from '../pages/AddCategories'
-import AddProductPage from '../pages/AddProduct';
-import AddOrderPage from '../pages/AddOrder';
-import AddBrandPage from '../pages/AddBrand';
+import DashboardPage from "../pages/Dashboard";
+import UsersPage from "../pages/Users";
+import AddUser from "../pages/AddUser";
+import CategoriesPage from "../pages/Categories";
+import ProductsPage from "../pages/Products";
+import BrandsPage from "../pages/Brands";
+import CommentsPage from "../pages/Comments";
+import OrdersPage from "../pages/Orders";
+import AddCategories from "../pages/AddCategories";
+import AddProductPage from "../pages/AddProduct";
+import AddOrderPage from "../pages/AddOrder";
+import AddBrandPage from "../pages/AddBrand";
+import EntityEditPage from "../pages/EntityEditPage";
+import EntityViewPage from "../pages/EntityViewPage";
+import AddCommentPage from "../pages/AddComment";
 
 const drawerWidth = 240;
 
 const StyledListItem = styled(ListItem)(({ theme, selected }) => ({
   padding: 0,
-  '& .MuiListItemButton-root': {
-    padding: '10px 16px',
-    color: selected ? '#1b2055' : 'rgba(27, 32, 85, 0.6)',
-    borderLeft: selected ? '4px solid #1b2055' : 'none',
-    '&:hover': {
-      backgroundColor: 'rgba(27, 32, 85, 0.04)',
+  "& .MuiListItemButton-root": {
+    padding: "10px 16px",
+    color: selected ? "#1b2055" : "rgba(27, 32, 85, 0.6)",
+    borderLeft: selected ? "4px solid #1b2055" : "none",
+    "&:hover": {
+      backgroundColor: "rgba(27, 32, 85, 0.04)",
     },
   },
-  '& .MuiListItemIcon-root': {
-    minWidth: '40px',
-    color: selected ? '#1b2055' : 'rgba(27, 32, 85, 0.6)',
+  "& .MuiListItemIcon-root": {
+    minWidth: "40px",
+    color: selected ? "#1b2055" : "rgba(27, 32, 85, 0.6)",
   },
 }));
 
@@ -83,38 +86,38 @@ function ResponsiveDrawer() {
   }, [location]);
 
   const sidebarTabs = [
-    { name: 'Dashboard', icon: <DashboardIcon />, path: '/' },
-    { name: 'Users', icon: <PersonIcon />, path: '/users' },
-    { name: 'Categories', icon: <CategoryIcon />, path: '/categories' },
-    { name: 'Products', icon: <StorefrontIcon />, path: '/products' },
-    { name: 'Brands', icon: <CopyrightIcon />, path: '/brands' },
-    { name: 'Comments', icon: <CommentIcon />, path: '/comments' },
-    { name: 'Orders', icon: <LocalShippingIcon />, path: '/orders' },
+    { name: "Dashboard", icon: <DashboardIcon />, path: "/" },
+    { name: "Users", icon: <PersonIcon />, path: "/users" },
+    { name: "Categories", icon: <CategoryIcon />, path: "/categories" },
+    { name: "Products", icon: <StorefrontIcon />, path: "/products" },
+    { name: "Brands", icon: <CopyrightIcon />, path: "/brands" },
+    { name: "Comments", icon: <CommentIcon />, path: "/comments" },
+    { name: "Orders", icon: <LocalShippingIcon />, path: "/orders" },
   ];
 
   const drawer = (
     <Box>
-      <Toolbar sx={{ display: 'flex', alignItems: 'center' }}>
-        <Button href='/'>
-          <img src='/kendirlogo.png' style={{ width: 32 }} alt="Logo" />
-          <Typography m={1} color="#1b2055">App</Typography>
+      <Toolbar sx={{ display: "flex", alignItems: "center" }}>
+        <Button href="/">
+          <img src="/kendirlogo.png" style={{ width: 32 }} alt="Logo" />
+          <Typography m={1} color="#1b2055">
+            App
+          </Typography>
         </Button>
       </Toolbar>
       <Divider />
       <List sx={{ py: 1 }}>
         {sidebarTabs.map((tab) => (
-          <StyledListItem 
+          <StyledListItem
             key={tab.path}
             selected={location.pathname === tab.path}
           >
-            <ListItemButton 
+            <ListItemButton
               component={Link}
               to={tab.path}
               onClick={handleDrawerClose}
             >
-              <ListItemIcon>
-                {tab.icon}
-              </ListItemIcon>
+              <ListItemIcon>{tab.icon}</ListItemIcon>
               <ListItemText primary={tab.name} />
             </ListItemButton>
           </StyledListItem>
@@ -125,60 +128,64 @@ function ResponsiveDrawer() {
   );
 
   return (
-    <Box sx={{ 
-      display: 'flex',
-      minHeight: '100vh',
-      backgroundColor: theme.palette.grey[50] 
-    }}>
+    <Box
+      sx={{
+        display: "flex",
+        minHeight: "100vh",
+        backgroundColor: theme.palette.grey[50],
+      }}
+    >
       <CssBaseline />
       <AppBar
         position="fixed"
         sx={{
           width: { sm: `calc(100% - ${drawerWidth}px)` },
           ml: { sm: `${drawerWidth}px` },
-          bgcolor: '#ffffff',
-          boxShadow: '1 1 1',
-          borderBottom: '1px solid rgba(0, 0, 0, 0.12)',
-          zIndex: (theme) => theme.zIndex.drawer + 1
+          bgcolor: "#ffffff",
+          boxShadow: "1 1 1",
+          borderBottom: "1px solid rgba(0, 0, 0, 0.12)",
+          zIndex: (theme) => theme.zIndex.drawer + 1,
         }}
       >
-        <Toolbar sx={{ 
-          display: 'flex', 
-          justifyContent: 'space-between',
-          px: { xs: 1, sm: 2 } 
-        }}>
-          <Box sx={{ display: 'flex', alignItems: 'center' }}>
+        <Toolbar
+          sx={{
+            display: "flex",
+            justifyContent: "space-between",
+            px: { xs: 1, sm: 2 },
+          }}
+        >
+          <Box sx={{ display: "flex", alignItems: "center" }}>
             <IconButton
               color="inherit"
               aria-label="open drawer"
               edge="start"
               onClick={handleDrawerToggle}
               sx={{
-                mr: 1, 
-                color: '#1b2055', 
-                display: { sm: 'none' },
-                '&:focus': { outline: 'none' }
+                mr: 1,
+                color: "#1b2055",
+                display: { sm: "none" },
+                "&:focus": { outline: "none" },
               }}
             >
               <MenuIcon />
             </IconButton>
-            
+
             <Box
               component="form"
-              sx={{ 
-                '& > :not(style)': { 
-                  width: { xs: '20ch', sm: '30ch' }
+              sx={{
+                "& > :not(style)": {
+                  width: { xs: "20ch", sm: "30ch" },
                 },
-                '& .MuiOutlinedInput-root': {
-                  padding: '8px 12px',
-                  height: '40px',
+                "& .MuiOutlinedInput-root": {
+                  padding: "8px 12px",
+                  height: "40px",
                   borderRadius: 3,
-                  pr: 0
+                  pr: 0,
                 },
-                '& .MuiOutlinedInput-input': {
-                  padding: '8px 0',
+                "& .MuiOutlinedInput-input": {
+                  padding: "8px 0",
                 },
-                mr: { xs: 1, sm: 0 }
+                mr: { xs: 1, sm: 0 },
               }}
               noValidate
               autoComplete="off"
@@ -200,20 +207,24 @@ function ResponsiveDrawer() {
               />
             </Box>
           </Box>
-          <Avatar sx={{ 
-            bgcolor: '#1b2055',
-            width: 36, 
-            height: 36,
-            fontSize: '1rem' 
-          }}>A</Avatar>
+          <Avatar
+            sx={{
+              bgcolor: "#1b2055",
+              width: 36,
+              height: 36,
+              fontSize: "1rem",
+            }}
+          >
+            A
+          </Avatar>
         </Toolbar>
       </AppBar>
       <Box
         component="nav"
-        sx={{ 
+        sx={{
           width: { sm: drawerWidth },
           flexShrink: { sm: 0 },
-          zIndex: (theme) => theme.zIndex.drawer
+          zIndex: (theme) => theme.zIndex.drawer,
         }}
         aria-label="mailbox folders"
       >
@@ -225,9 +236,9 @@ function ResponsiveDrawer() {
             keepMounted: true,
           }}
           sx={{
-            display: { xs: 'block', md: 'none' },
-            '& .MuiDrawer-paper': { 
-              boxSizing: 'border-box', 
+            display: { xs: "block", md: "none" },
+            "& .MuiDrawer-paper": {
+              boxSizing: "border-box",
               width: drawerWidth,
             },
           }}
@@ -237,9 +248,9 @@ function ResponsiveDrawer() {
         <Drawer
           variant="permanent"
           sx={{
-            display: { xs: 'none', sm: 'block' },
-            '& .MuiDrawer-paper': { 
-              boxSizing: 'border-box', 
+            display: { xs: "none", sm: "block" },
+            "& .MuiDrawer-paper": {
+              boxSizing: "border-box",
               width: drawerWidth,
             },
           }}
@@ -250,8 +261,8 @@ function ResponsiveDrawer() {
       </Box>
       <Box
         component="main"
-        sx={{ 
-          flexGrow: 1, 
+        sx={{
+          flexGrow: 1,
           p: 3,
           width: { sm: `calc(100% - ${drawerWidth}px)` },
         }}
@@ -270,11 +281,13 @@ function ResponsiveDrawer() {
           <Route path="/products/add" element={<AddProductPage />} />
           <Route path="/orders/add" element={<AddOrderPage />} />
           <Route path="/brands/add" element={<AddBrandPage />} />
+          <Route path="/comments/add" element={<AddCommentPage />} />
+          <Route path="/entity/edit/:id" element={<EntityEditPage />} />
+          <Route path="/entity/view/:id" element={<EntityViewPage />} />
         </Routes>
       </Box>
     </Box>
   );
 }
-
 
 export default ResponsiveDrawer;

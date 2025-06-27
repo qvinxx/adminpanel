@@ -8,30 +8,88 @@ import {
   Icon,
   Paper,
 } from "@mui/material";
-import {
-  Search as SearchIcon,
-} from "@mui/icons-material";
-import React, { useState } from "react";
-import AddButtonDialog from "../components/AddCommentDialog";
+import { Search as SearchIcon } from "@mui/icons-material";
+import React, { useCallback, useEffect, useState } from "react";
 import { commentRows, useCommentColumns } from "../data/commentsData";
 import { DataGrid } from "@mui/x-data-grid";
+import { useNavigate } from "react-router-dom";
 
 export default function CommentsPage() {
   const theme = useTheme();
   const isMobile = useMediaQuery(theme.breakpoints.down("sm"));
-  const [openDialog, setOpenDialog] = useState(false);
   const [searchText, setSearchText] = useState("");
   const columns = useCommentColumns();
+  const navigate = useNavigate();
+  const [rows, setRows] = useState(() => {
+    const savedComments = localStorage.getItem("comments");
+    return savedComments ? JSON.parse(savedComments) : commentRows;
+  });
+  useEffect(() => {
+    localStorage.setItem("comments", JSON.stringify(rows));
+  }, [rows]);
 
-  const filteredRows = commentRows.filter((row) =>
+  const getNewCommentId = useCallback(() => {
+    return rows.length > 0
+      ? Math.max(...rows.map((comment) => comment.id)) + 1
+      : 1;
+  }, [rows]);
+
+  const handleDelete = (id) => {
+    setRows((prev) => prev.filter((row) => row.id !== id));
+  };
+
+  const handleEdit = (id) => {
+    navigate(`/entity/edit/${id}`, {
+      state: {
+        storageKey: "comments",
+        title: "Edit Comment",
+        idKey: "id",
+        redirectTo: "/comments",
+        fields: [
+          { name: "customer", label: "Commenter Name" },
+          { name: "product", label: "Product Name" },
+          { name: "rating", label: "Rating" },
+          { name: "comments", label: "Comment" },
+        ],
+      },
+    });
+  };
+
+  const handleView = (id) => {
+    navigate(`/entity/view/${id}`, {
+      state: {
+        storageKey: "comments",
+        title: "View Comment",
+        idKey: "id",
+        fields: [
+          { name: "customer", label: "Commenter Name" },
+          { name: "product", label: "Product Name" },
+          { name: "rating", label: "Rating" },
+          { name: "comments", label: "Comment" },
+        ],
+        redirectTo: "/comments",
+      },
+    });
+  };
+
+  const rowsWithHandlers = rows.map((row) => ({
+    ...row,
+    handleView,
+    handleEdit,
+    handleDelete,
+  }));
+
+  const filteredRows = rowsWithHandlers.filter((row) =>
     Object.values(row).some((value) =>
       String(value).toLowerCase().includes(searchText.toLowerCase())
     )
   );
 
-  const handleAddComment = () => {
-    setOpenDialog(true);
-  };
+  const handleAddComment = useCallback(() => {
+    navigate("/comments/add", {
+      state: { nextId: getNewCommentId() },
+    });
+  }, [navigate, getNewCommentId]);
 
   return (
     <Box
@@ -163,8 +221,6 @@ export default function CommentsPage() {
           </Box>
         </Box>
       </Paper>
-
-      <AddButtonDialog open={openDialog} onClose={() => setOpenDialog(false)} />
     </Box>
   );
 }
